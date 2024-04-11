@@ -1,0 +1,82 @@
+{% extends './base.html' %}
+
+{% block customCSS %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">{% endblock %}
+
+{% block title %}Administrador{% endblock %}
+
+{% block body %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{{url_for('admin.admin')}}">Circle Vision</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a href="{{url_for('admin.agregarTareas')}}">Agregar tareas</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{url_for('admin.agregarIntegrantes')}}">Editar integrantes</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{url_for('admin.tareasEstadoAdmin')}}">Avances</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{url_for('session.logout')}}">Cerrar sesión</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 class="text-center mt-5 mb-5">Administrador de integrantes para Integradora</h1>
+</div>
+
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="text-center">Agregar Integrantes</h5>
+                </div>
+                <div class="card-body">
+                    <form action="/addIntegrante" method="POST">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control mb-3" name="nombre">
+                        <label>Apellidos</label>
+                        <input type="text" class="form-control mb-3" name="apellidos">
+                        <label>Rol</label>
+                        <input type="text" class="form-control mb-3" name="rol">
+                        <button class="btn btn-custom" type="submit">Agregar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {% for integrante in integrantes %}
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="text-center">{{ integrante.nombre }}</h5>
+                </div>
+                <div class="card-body">
+                    <form action="/editIntegrante/{{ integrante._id }}" method="POST">
+                        <small>Nombre</small>
+                        <input type="text" class="form-control" value="{{ integrante.nombre }}" name="nombre">
+                        <small>Apellidos</small>
+                        <input type="text" class="form-control" value="{{ integrante.apellidos }}" name="apellidos">
+                        <small>Rol</small>
+                        <input type="text" class="form-control" value="{{ integrante.rol }}" name="rol">
+                        <button class="btn btn-editar btn-sm mt-3" type="submit">Editar</button>
+                        <a href="{{ url_for('admin.deleteIntegrante', id_integrante=integrante._id) }}"
+                            class="btn btn-eliminar btn-sm mt-3">Eliminar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

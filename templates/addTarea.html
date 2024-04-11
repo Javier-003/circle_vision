@@ -1,0 +1,89 @@
+{% extends './base.html' %}
+
+{% block customCSS %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">{% endblock %}
+
+{% block title %}Administrador{% endblock %}
+
+{% block body %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{{url_for('admin.admin')}}">Circle Vision</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a href="{{url_for('admin.agregarTareas')}}">Agregar tareas</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{url_for('admin.agregarIntegrantes')}}">Editar integrantes</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{url_for('admin.tareasEstadoAdmin')}}">Avances</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{url_for('session.logout')}}">Cerrar sesión</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 class="text-center mt-5 mb-5">Administrador de tareas para Integradora</h1>
+</div>
+
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="text-center">Agregar Tarea</h5>
+                </div>
+                <div class="card-body">
+                    <form action="/addTarea/" method="POST">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control mb-3" name="nombre">
+                        <label>Descripción</label>
+                        <input type="text" class="form-control mb-3" name="descripcion">
+                        <label>Encargado</label>
+                        <input type="text" class="form-control mb-3" name="encargado">
+                        <label>Inicio</label>
+                        <input type="date" class="form-control mb-3" name="inicio">
+                        <label>Entrega</label>
+                        <input type="date" class="form-control mb-3" name="entrega">
+                        <button class="btn btn-custom" type="submit">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {% for tarea in tareas %}
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="text-center">{{ tarea.nombre }}</h5>
+                </div>
+                <div class="card-body">
+                    <form action="/editTarea/{{ tarea._id }}" method="POST">
+                        <input type="hidden" value="{{tarea.nombre}}" name="nombre">
+                        <small>Descripción</small>
+                        <input type="text" class="form-control" value="{{tarea.descripcion}}" name="descripcion">
+                        <small>Encargado</small>
+                        <input type="text" class="form-control" value="{{tarea.encargado}}" name="encargado">
+                        <small>Inicio</small>
+                        <input type="date" class="form-control" value="{{tarea.inicio}}" name="inicio">
+                        <small>Entrega</small>
+                        <input type="date" class="form-control" value="{{tarea.entrega}}" name="entrega">
+                        <button class="btn btn-editar btn-sm mt-3 mb-3" type="submit">Editar</button>
+                        <a href="{{ url_for('admin.deleteTarea', id_tarea=tarea._id) }}"
+                            class="btn btn-eliminar btn-sm mt-3 mb-3">Eliminar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

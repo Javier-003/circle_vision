@@ -1,0 +1,47 @@
+{% extends './base.html' %}
+
+{% block customCSS %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/user.css') }}">{% endblock %}
+
+{% block title %}Inicio | Admin{% endblock %}
+
+{% block body %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{{url_for('admin.admin')}}">Circle Vision</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a href="{{url_for('admin.agregarTareas')}}">Agregar tareas</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{url_for('admin.agregarIntegrantes')}}">Editar integrantes</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{url_for('admin.tareasEstadoAdmin')}}">Avances</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{url_for('session.logout')}}">Cerrar sesión</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <h1 class="text-center mb-5 text-black"><img src="/static/images/admin.png" alt="admin">Bienvenido Administrador!</h1>
+        <p>Como administrador, tienes el poder de liderar, supervisar y optimizar cada aspecto de tus proyectos. 
+            Desde asignar tareas hasta monitorear el progreso del equipo, estamos aquí para hacer que tu experiencia
+            sea lo más fluida y productiva posible.
+        </p>
+        <p>
+            Explora nuestras herramientas intuitivas y personalizadas diseñadas para simplificar tu trabajo. 
+            ¿Necesitas asignar una tarea crítica? ¿Revisar el estado de un proyecto? ¡Lo tenemos cubierto! 
+        </p>
+
+    </div>
+</div>
+{% endblock %}
